@@ -19,6 +19,7 @@ export class Player extends Ai {
         this.de = null
         this.isLaunchDe = false
         this.turn = false
+        this.win = false
     }
 
     reset() {
@@ -210,7 +211,7 @@ export class Player extends Ai {
     generateName(id, ai) {
         const name = ["Jackson", "Bobby", "Molly", "Rascass", "Mortane", "Barbasse", "Edward", "Morgane", "Shanks"];
         if (id == 2 && !ai) {
-            return name[Math.round(Math.random() * 7)];
+            return name[Math.round(Math.random() * 10)];
         }
         if (id == 1 && ai) {
         }

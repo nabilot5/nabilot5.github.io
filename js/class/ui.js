@@ -8,12 +8,12 @@ export class Ui {
     }
 
     endGame() {
+        const winnerName = (this.game.player1.score < this.game.player2.score) ? this.game.player1.name : this.game.player2.name;
         this.oppacity.style.display = "block";
-        this.endScore.innerText = `${document.getElementById(`totalScore1`).innerText} - ${document.getElementById(`totalScore2`).innerText}`
+        this.endScore.innerText = `${winnerName} Win\n${document.getElementById(`totalScore1`).innerText} - ${document.getElementById(`totalScore2`).innerText}`
         this.buttonRules.setAttribute('disabled', 'true');
-        this.endMenu.classList.remove("hide")
+        this.endMenu.classList.remove("hide");
     }
-
     restartGame() {
 
         let img = document.createElement('img');

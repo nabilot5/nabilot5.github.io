@@ -23,9 +23,6 @@ export class Game {
         this.player2.grid = [null, null, null, null, null, null, null, null, null]
         this.player2.otherPlayer = this.player1
         this.player2.drawGrille()
-
-        console.log(`Player ${this.player1.id}:${this.player1.turn}`);
-        console.log(`Player ${this.player2.id}:${this.player2.turn}`);
     }
 
     reset() {
@@ -63,14 +60,31 @@ export class Game {
     }
 
     switchTurn() {
+        if (this.player1.turn) {
+            document.getElementById('potPlayer1').setAttribute('class', 'choice-dice clignote')
+            document.getElementById('potPlayer2').setAttribute('class', 'choice-dice')
+        }
+        if (this.player2.turn) {
+            document.getElementById('potPlayer1').setAttribute('class', 'choice-dice')
+            document.getElementById('potPlayer2').setAttribute('class', 'choice-dice clignote')
+        }
+
         this.player1.turn = !this.player1.turn
         this.player2.turn = !this.player2.turn
 
+
         if (this.player1.gridIsFull() || this.player2.gridIsFull()) {
             this.ui.endGame()
-            this.run = false
+            if (this.player1.score > this.player2.score) {
+                console.log('test1' + this.id);
+                document.getElementById('end-menu').style.filter = 'drop-shadow(0 0 5rem rgb(255, 179, 0))';
+            }
+            if (this.player1.score < this.player2.score) {
+                console.log('test2' + this.id);
+                document.getElementById('end-menu').style.filter = 'drop-shadow(0 0 5rem rgb(255, 0, 0))';
+                this.run = false
+            }
         }
-
         if (this.player1.turn && this.player1.ai && this.run) {
             this.player1.aiTurn()
         }
@@ -78,5 +92,6 @@ export class Game {
         if (this.player2.turn && this.player2.ai && this.run) {
             this.player2.aiTurn()
         }
+
     }
 } 
