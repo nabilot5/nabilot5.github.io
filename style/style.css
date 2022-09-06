@@ -1,21 +1,48 @@
+#leaderboard-page {
+    display: none;
+    position: absolute;
+    padding: 2%;
+    background-color: rgba(210, 210, 255, 0.491);
+    z-index: 5;
+    border-radius: 10px;
+}
+
+#leaderboard-table {
+    padding: 10%;
+}
+
+#leaderboard-btn {
+    position: absolute;
+    z-index: 5;
+    margin-right: 50%;
+}
+
 /* #################### begin menu #################### */
+.hideGame {
+    display: none !important;
+}
+
 .clignote {
     background-color: transparent;
     box-shadow: 0 0 100px black;
     animation: clignote 2s linear;
 }
-@keyframes clignote {  
-    50% { opacity: 0; }
+
+@keyframes clignote {
+    50% {
+        opacity: 0;
+    }
 }
 
 @keyframes rotation {
     from {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
+
     to {
-      transform: rotate(359deg);
+        transform: rotate(359deg);
     }
-  }
+}
 
 #gouvernail {
     animation: rotation 2s infinite linear;
@@ -47,11 +74,12 @@
     position: absolute;
     border: none;
     font-size: auto;
-    margin-right: 40%;
-    margin-top:30%;
+    margin-right: 42%;
+    margin-top:29.5%;
+    font-size: 150%;
     background-color: transparent;
     width: 15%;
-    height: 10%;
+    height: 5%;
 }
 
 #randomName {
@@ -60,7 +88,7 @@
     z-index: 3;
     position: absolute;
     width: 7%;
-    margin-right:70%;
+    margin-right:67%;
     margin-top: 30%;
 }
 
@@ -87,27 +115,27 @@
 #logo {
     background-color: transparent;
     position: absolute;
-    margin-bottom: 40%;
-    margin-right: 80%;
-    width: 25%;
+    margin-bottom: 30%;
+    margin-right: 67%;
+    width: 20%;
 }
 
 /* #################### global #################### */
 
 body {
     font-family: cursive;
-    background-color: black;
+    background-color: white;
     overflow: hidden;
 }
 
-body, html, #wrapper, #wrapper2 {
+body, html, #wrapper, #index {
     width: 100%;
     height: 100%;
     padding: 0;
     margin: 0;
 }
 
-#background, #wrapper, #wrapper2, #backg {
+#background, #wrapper, #index, #backg {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -121,11 +149,11 @@ img {
 #btn-rules {
     background-color: transparent;
     border: none;
-    width: 20%;
-    position: absolute;
+    width: 15%;
+    position: fixed;
     z-index: 5;
-    margin-left: 81%;
-    margin-bottom: 37.7%;
+    margin-left: 85.5%;
+    margin-bottom: 42%;
 }
 
 #rulesImg {
@@ -136,7 +164,7 @@ img {
     display: none;
     width: 100%;
     height: 100%;
-    z-index: 9;
+    z-index: 10;
 }
 
 #rules {
@@ -162,7 +190,7 @@ img {
     border: none;
     width: 15%;
     position: absolute;
-    z-index: 10;
+    z-index: 11;
     left: 25%;
     top: 70%;
 
@@ -236,9 +264,9 @@ img {
     border: none;
     background-color: transparent;
     position: absolute;
-    margin-top: 30%;
-    margin-right: 70%;
-    width: 25%;
+    margin-top: 35%;
+    margin-right: 65%;
+    width: 20%;
     z-index: 7;
 }
 
@@ -315,30 +343,30 @@ img {
 .totalScore1 {
     z-index: 5;
     position: relative;
-    left: -3%;
-    top: 50%;
+    margin-left: -3%;
+    margin-top: 114%;
     height: 10%;
 }
 
 .totalScore2 {
     z-index: 5;
     position: relative;
-    left: 3%;
-    bottom: 50%;
+    margin-left: 3%;
+    margin-bottom: 114%;
     height: 10%;
 }
 
 #namePlayer2 {
     z-index: 5;
     position: absolute;
-    right: 16%;
-    margin-bottom: -5%;
+    right: 16.5%;
+    margin-bottom: -4%;
 }
 
 #namePlayer1 {
     z-index: 5;
     position: absolute;
-    left: 15%;
+    left: 16%;
     margin-top: -10%;
 }
 
@@ -422,7 +450,7 @@ img {
 }
 
 #quitGame {
-    filter : drop-shadow(0 0 30rem rgb(255, 179, 0));
+    filter: drop-shadow(0 0 30rem rgb(255, 179, 0));
     border: none;
     background-color: transparent;
     position: absolute;
@@ -460,10 +488,6 @@ img {
     font-size: 3vw;
     color: rgb(70, 23, 0);
     margin: 0;
-}
-
-#quitBtn {
-    width: 10%;
 }
 
 .reset {
@@ -563,4 +587,3 @@ img {
 #oppacity, #rulesImg, #returnToTheGame {
     display: none;
 }
-
