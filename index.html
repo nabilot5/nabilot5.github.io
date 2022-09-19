@@ -7,15 +7,16 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link
 		rel="stylesheet" href="style/style.css"/>
-		<!-- <link rel="stylesheet" href="style/veryOldStyle.css"/> -->
 		<script src="https://kit.fontawesome.com/b7c84a7a15.js" crossorigin="anonymous"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		<script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
-		<!-- <script defer src="js/loader.js"></script> -->
 		<script defer type="module" src="js/index.js"></script>
 		<title>The Pirate's Dice</title>
 	</head>
 	<body>
+		<div id="animation" class="hide">
+			<img id="explosion" class="explode" src="/assets/animationsEffect/explosion.png" alt="" />
+		</div>
 		<div id="sound">
 			<audio id="beginSong" src="assets/soundsEffect/begin.mp3"></audio>
 			<audio id="boom" src="assets/soundsEffect/boom.mp3"></audio>
