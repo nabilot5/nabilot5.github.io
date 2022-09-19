@@ -22,8 +22,7 @@ export class Animation extends Sound {
 
                 setTimeout(() => {
                     imgCase.attr("class", "explode")
-
-                }, 100)
+                }, 150)
 
                 setTimeout(() => {
                     imgCase.attr("class", "")
