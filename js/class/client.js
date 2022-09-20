@@ -7,7 +7,7 @@ export class Client {
         this.socket
         this.localUrl = "https://pirate-dice-serveur.herokuapp.com"
         // this.localUrl = "http://localhost:8080"
-        // this.servUrl = "https://pirate-dice-serveur.herokuapp.com"
+        this.servUrl = "https://pirate-dice-serveur.herokuapp.com"
         this.loader = new Loader()
     }
 
