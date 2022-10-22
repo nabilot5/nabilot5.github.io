@@ -1,5 +1,5 @@
-import { Player } from "/js/class/player.js";
-import { Ui } from "/js/class/ui.js";
+import { Player } from "./player.js";
+import { Ui } from "./ui.js";
 import { Client } from "./client.js";
 import { Sound } from "./sound.js";
 import { Animation } from "./animation.js"
@@ -18,8 +18,8 @@ export class Game {
     }
 
     init() {
-        this.player1 = new Player(this, document.getElementById("grille2"), 2)
-        this.player2 = new Player(this, document.getElementById("grille1"), 1)
+        this.player1 = new Player(this, document.getElementById("grille1"), 1)
+        this.player2 = new Player(this, document.getElementById("grille2"), 2)
 
         this.client.init()
 
@@ -32,22 +32,23 @@ export class Game {
 
     play(mode) {
         this.player1.setName()
+        this.player1.remove()
         this.sound.play('bgAudio', 0.01, true)
         this.sound.play('SeaSound', 0.01, true)
 
         switch (mode) {
             case "solo":
-                this.client.joinSolo()
+                this.client.joinRoom(mode, this.player1.name)
                 this.show()
                 break;
 
             case "multi":
                 $("#index").fadeOut(400)
                 this.loader.add("En attente d'un autre joueur ...")
-                this.client.joinMulti()
+                this.client.joinRoom(mode, this.player1.name)
                 break;
 
-            default: this.client.joinSolo(); break;
+            default: break;
         }
     }
 

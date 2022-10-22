@@ -1,95 +1,144 @@
 import { Loader } from "./loader.js"
+import { url_player_server } from "../../config/url.config.js"
 
 export class Client {
     constructor(game, local) {
         this.local = local
         this.game = game
         this.socket
-        this.localUrl = "https://pirate-dice-serveur.herokuapp.com"
-        // this.localUrl = "http://localhost:8080"
-        this.servUrl = "https://pirate-dice-serveur.herokuapp.com"
         this.loader = new Loader()
     }
 
     init() {
-        let serveUrl = ""
-        if (this.local) {
-            serveUrl = this.localUrl
-        } else {
-            serveUrl = this.servUrl
-        }
-        this.socket = io(serveUrl)
+        this.socket = io(url_player_server)
 
-        this.receiveRoomInfo()
-        this.receiveMyDice()
-        this.receivePlayer2Dice()
-        this.receiveMyGrid()
-        this.receivePlayer2Grid()
-        this.receiveDestroyMyDice()
-        this.receiveDestroyEnemyDice()
-        this.receiveEndGame()
-        this.receivePlayerExit()
-    }
+        this.socket.on("connect", () => {
+            console.log("connected")
 
-    joinSolo() {
-        this.socket.emit("joinSoloGame", this.game.player1.name)
-    }
-
-    joinMulti() {
-        this.socket.emit("joinMultiGame", this.game.player1.name)
-    }
-
-    getMyDice() {
-        this.socket.emit("getMyDice")
-    }
-
-    receiveMyDice() {
-        this.socket.on("yourDice", (dice) => {
-            $("#potPlayer2").attr("src", `assets/dices/Dice${dice}.png`)
+            this.receiveRoomInfo()
+            this.receiveMyDice()
+            this.receivePlayer2Dice()
+            this.receiveMyGrid()
+            this.receivePlayer2Grid()
+            this.receiveDestroyMyDice()
+            this.receiveDestroyEnemyDice()
+            this.receiveEndGame()
+            this.receivePlayerExit()
+            this.receiveBonusCaseChoice()
         })
     }
 
-    receivePlayer2Dice() {
-        this.socket.on("player2Dice", (dice) => {
-            $("#potPlayer1").attr("src", `assets/dices/Dice${dice}.png`)
+    joinRoom(gameMode, playerName) {
+        this.socket.emit("join room", gameMode, playerName)
+    }
+
+    getMyDice() {
+        this.socket.emit("get dice", (response) => {
+            $("#potPlayer1")
+                .attr(
+                    "src",
+                    `https://ik.imagekit.io/iq52ivedsj/assets/dices/Dice${response.diceValue}.png?ik-sdk-version=javascript-1.4.3`
+                )
         })
     }
 
     sendColumnChoice(columnId) {
+        this.game.player1.removeBonusCaseControl()
+        this.game.animation.removeCssAnimation("#grille1 > div", "vibrate")
+        this.game.animation.removeCssAnimation("#grille2 > div", "vibrate")
         this.socket.emit("playerColumnChoice", columnId)
     }
 
+    sendBonusChoice(bonusId) {
+        this.socket.emit(
+            "bonusChoice",
+            {
+                bonusId,
+                pseudo: localStorage.getItem("pseudo"),
+                password: localStorage.getItem("password")
+            },
+
+            // callback
+            (response) => {
+                if (response.status !== 200) {
+                    this.game.player1.showErrorMsg(response.message)
+                }
+            })
+    }
+
+    receiveBonusCaseChoice() {
+        this.socket.on("bonusCaseChoise", (playerId) => {
+            this.game.player1.removeBonusCaseControl()
+            this.game.animation.addGridSelector(playerId, "vibrate")
+            this.game.player1.addBonusCaseControl(playerId)
+        })
+    }
+
+    sendPayerBonusCase(caseId) {
+        this.socket.emit(
+            "playerBonusCase",
+            {
+                caseId,
+                pseudo: localStorage.getItem("pseudo"),
+                password: localStorage.getItem("password")
+            }
+        )
+    }
+
+    receiveMyDice() {
+        this.socket.on("my dice", (dice) => {
+            this.game.animation.removeCssAnimation("#potPlayer1", "vibrate")
+            $(`#potPlayer${this.game.player1.id}`).attr("src", `https://ik.imagekit.io/iq52ivedsj/assets/dices/Dice${dice}.png?ik-sdk-version=javascript-1.4.3`)
+        })
+    }
+
+    receivePlayer2Dice() {
+        this.socket.on("dice other player", (dice) => {
+            $(`#potPlayer${this.game.player2.id}`).attr("src", `https://ik.imagekit.io/iq52ivedsj/assets/dices/Dice${dice}.png?ik-sdk-version=javascript-1.4.3`)
+        })
+    }
+
     receivePlayer2Grid() {
-        this.socket.on("player2Grid", (p2GridInfos) => {
+        this.socket.on("update other grid", (p2GridInfos) => {
             this.game.sound.play('diceSound', 0.1)
-            $(`#potPlayer${this.game.player2.id}`).attr("src", "assets/dices/choseDice.png")
-            const diceCaseImg = $(`#player1-col${p2GridInfos.columnId}-case-${p2GridInfos.nbCase} img`)
+            $(`#potPlayer${this.game.player2.id}`).attr("src", "https://ik.imagekit.io/iq52ivedsj/assets/dices/choseDice_ftS4YvZbV.png?ik-sdk-version=javascript-1.4.3&updatedAt=1662986918825")
+            const diceCaseImg = $(`#player${this.game.player2.id}-col${p2GridInfos.columnId}-case-${p2GridInfos.nbCase} img`)
 
             diceCaseImg.attr("data-value", p2GridInfos.caseValue)
-            diceCaseImg.attr("src", `assets/dices/Dice${p2GridInfos.caseValue}.png`)
+            diceCaseImg.attr(
+                "src",
+                `https://ik.imagekit.io/iq52ivedsj/assets/dices/Dice${p2GridInfos.caseValue}.png?ik-sdk-version=javascript-1.4.3`
+            )
 
             this.game.player2.refreshScoreColumn(p2GridInfos.columnId)
             this.game.player2.refreshTotalScore()
+            this.game.animation.addCssAnimation("#potPlayer1", "vibrate")
+            this.game.player2.addEffect(p2GridInfos.columnId)
         })
     }
 
     receiveMyGrid() {
-        this.socket.on("playerGrid", (p1GridInfos) => {
+        this.socket.on("update my grid", (p1GridInfos) => {
             this.game.sound.play('diceSound', 0.1)
-            $(`#potPlayer${this.game.player1.id}`).attr("src", "assets/dices/choseDice.png")
-            const diceCaseImg = $(`#player2-col${p1GridInfos.columnId}-case-${p1GridInfos.nbCase} img`)
+            $(`#potPlayer${this.game.player1.id}`).attr("src", "https://ik.imagekit.io/iq52ivedsj/assets/dices/choseDice_ftS4YvZbV.png?ik-sdk-version=javascript-1.4.3&updatedAt=1662986918825")
+            const diceCaseImg = $(`#player${this.game.player1.id}-col${p1GridInfos.columnId}-case-${p1GridInfos.nbCase} img`)
 
             diceCaseImg.attr("data-value", p1GridInfos.caseValue)
-            diceCaseImg.attr("src", `assets/dices/Dice${p1GridInfos.caseValue}.png`)
+            diceCaseImg.attr("src", `https://ik.imagekit.io/iq52ivedsj/assets/dices/Dice${p1GridInfos.caseValue}.png?ik-sdk-version=javascript-1.4.3`)
 
             this.game.player1.refreshScoreColumn(p1GridInfos.columnId)
             this.game.player1.refreshTotalScore()
+            this.game.player1.addEffect(p1GridInfos.columnId)
         })
     }
 
     receiveDestroyMyDice() {
         this.socket.on("destroyMyDice", (diceInfos) => {
-            const animationDuration = this.game.animation.explodeDice("2", diceInfos.columnId, diceInfos.nbCase)
+            const animationDuration = this.game.animation.explodeDice(
+                this.game.player1.id,
+                diceInfos.columnId,
+                diceInfos.nbCase
+            )
 
             setTimeout(() => {
                 this.game.player1.refreshScoreColumn(diceInfos.columnId)
@@ -101,7 +150,11 @@ export class Client {
 
     receiveDestroyEnemyDice() {
         this.socket.on("destroyEnemyDice", (diceInfos) => {
-            const animationDuration = this.game.animation.explodeDice("1", diceInfos.columnId, diceInfos.nbCase)
+            const animationDuration = this.game.animation.explodeDice(
+                this.game.player2.id,
+                diceInfos.columnId,
+                diceInfos.nbCase
+            )
 
             setTimeout(() => {
                 this.game.player2.refreshScoreColumn(diceInfos.columnId)
@@ -113,12 +166,12 @@ export class Client {
 
     receiveEndGame() {
         this.socket.on("endGame", (endGameMsg) => {
-            this.game.ui.endGame(endGameMsg)
+            this.game.ui.showEndGame(endGameMsg)
         })
     }
 
     receiveRoomInfo() {
-        this.socket.on("sendRoomInfo", roomInfo => {
+        this.socket.on("room info", roomInfo => {
             this.game.roomId = roomInfo.roomId
             this.game.player2.name = roomInfo.p2Name
 
@@ -127,19 +180,42 @@ export class Client {
                 $("#game").fadeIn(400)
             }
 
-            $("#namePlayer1").text(roomInfo.p2Name)
+            $(`#namePlayer${this.game.player2.id}`).text(roomInfo.p2Name)
             console.log(roomInfo)
+
+            if (roomInfo.turn) {
+                this.game.animation.addCssAnimation("#potPlayer1", "vibrate")
+            }
         })
     }
 
     receivePlayerExit() {
         this.socket.on("playerExit", () => {
-            console.log("player exit");
             this.game.ui.endGame(`${this.game.player2.name} rage quit`)
         })
     }
 
     sendExitGameOfType(typeOfEvent) {
         this.socket.emit(typeOfEvent)
+    }
+
+    sendBet(betValue) {
+        this.socket.emit(
+            "player bet",
+            betValue,
+            localStorage.getItem("pseudo"),
+            localStorage.getItem("password"),
+
+            // callback 
+            (response) => {
+                if (response.status === 200) {
+                    this.game.ui.hideBet()
+                }
+
+                else {
+                    this.game.ui.showBetErr(response.msg)
+                }
+            }
+        )
     }
 }

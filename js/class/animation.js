@@ -16,13 +16,15 @@ export class Animation extends Sound {
             imgCase.attr("data-value", "null")
 
             setTimeout(() => {
+                imgCase.parent().removeClass('vibrate')
                 this.overlapPlay("boom", 0.2, false)
                 imgCase.attr("src", "#")
                     .attr("src", "assets/animationsEffect/explosion.png")
 
                 setTimeout(() => {
                     imgCase.attr("class", "explode")
-                }, 150)
+
+                }, 100)
 
                 setTimeout(() => {
                     imgCase.attr("class", "")
@@ -33,5 +35,30 @@ export class Animation extends Sound {
         })
 
         return delay * caseId.length
+    }
+
+    addCssAnimation(selector, className) {
+        $(selector).addClass(className);
+    }
+
+    removeCssAnimation(selector, className) {
+        $(selector).removeClass(className);
+    }
+
+    addGridSelector(gridId, className) {
+        switch (gridId) {
+            case 1:
+                this.removeCssAnimation("#grille2 > div", className)
+                this.addCssAnimation(`#grille${gridId} > div`, className)
+                break;
+
+            case 2:
+                this.removeCssAnimation("#grille1 > div", className)
+                this.addCssAnimation(`#grille${gridId} > div`, className)
+                break;
+
+            default:
+                break;
+        }
     }
 }

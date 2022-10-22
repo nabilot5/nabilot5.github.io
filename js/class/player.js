@@ -1,5 +1,7 @@
-export class Player {
+import { Inventory } from "./inventory.js"
+export class Player extends Inventory {
     constructor(game, htmlTab, id) {
+        super()
         this.game = game
         this.otherPlayer = null
         this.htmlTab = htmlTab
@@ -10,28 +12,29 @@ export class Player {
     }
 
     refreshColumn(columnId) {
-        this.sortColumn(columnId).forEach((dice, nbCase) => {
+        this.sortColumn(columnId).forEach((dice, caseId) => {
             let imgSrc = "#"
             let dataSet = "null"
 
             if (dice !== "null") {
-                imgSrc = `assets/dices/Dice${dice}.png`
+                imgSrc = `https://ik.imagekit.io/iq52ivedsj/assets/dices/Dice${dice}.png?ik-sdk-version=javascript-1.4.3`
                 dataSet = dice
             }
 
-            const imgCase = $(`#player${this.id}-col${columnId}-case-${nbCase + 1} img`)
+            const imgCase = $(`#player${this.id}-col${columnId}-case-${caseId + 1} img`)
 
             imgCase.attr("data-value", dataSet)
             imgCase.attr("src", imgSrc)
         })
+
+        this.addEffect(columnId)
     }
 
     sortColumn(columnId) {
-        let columnValue = this.getFormatColumn(columnId)
-        columnValue = columnValue.filter(caseValue => caseValue !== "null")
-        const nbOfNullCase = 3 - columnValue.length
+        let columnValue = this.getFormatColumn(columnId).filter(caseValue => caseValue !== "null")
+        columnValue = this.id === 2 ? columnValue.reverse() : columnValue
 
-        for (let index = 0; index < nbOfNullCase; index++) {
+        for (let index = 3 - columnValue.length; index > 0; index--) {
             columnValue.push("null")
         }
 
@@ -52,18 +55,14 @@ export class Player {
         const scoreColumn = this.evalScoreColumn(columnId)
 
         if (scoreColumn > 0) {
-            $(`#totalScore${this.id}Column${columnId}`).html(scoreColumn)
+            $(`#totalScore${this.id}Column${columnId} p`).html(scoreColumn)
         } else {
-            $(`#totalScore${this.id}Column${columnId}`).html("")
+            $(`#totalScore${this.id}Column${columnId} p`).html("")
         }
     }
 
     evalScoreColumn(columnId) {
-        const countDices = this.getFormatColumn(columnId).reduce((acc, value) => ({
-            ...acc,
-            [value]: (acc[value] || 0) + 1
-        }), {})
-
+        const countDices = this.countDices(columnId)
         let totalScoreOfColumn = 0
 
         for (let dice in countDices) {
@@ -74,6 +73,13 @@ export class Player {
         }
 
         return totalScoreOfColumn
+    }
+
+    countDices(columnId) {
+        return this.getFormatColumn(columnId).reduce((acc, value) => ({
+            ...acc,
+            [value]: (acc[value] || 0) + 1
+        }), {})
     }
 
     getFormatColumn(columnId) {
@@ -87,22 +93,10 @@ export class Player {
         return formatColumn
     }
 
-    checkVibrateClass(id, col) {
-        for (let cell = 1; cell <= 3; cell++) {
-            let VibrateClass = document.getElementById(`player${id}-col${col}-case-${cell}`).getAttribute('class');
-            if (VibrateClass === 'vibrate') {
-                document.getElementById(`player${id}-col${col}-case-${cell}`).classList.remove('vibrate');
-                document.getElementById(`player${id}-col${col}-case-${cell}`).classList.add('vibrate');
-            }
-            else {
-                document.getElementById(`player${id}-col${col}-case-${cell}`).classList.add('vibrate');
-            }
-        }
-    }
-
     initControl() {
         this.controlChoiceDice()
         this.controlColumn()
+        this.initInventory()
     }
 
     controlChoiceDice() {
@@ -126,6 +120,44 @@ export class Player {
         if (pseudo !== null) {
             this.name = pseudo
             $(`#namePlayer${this.id}`).html(pseudo)
+        }
+    }
+
+    addEffect(columnId) {
+        const countDices = this.countDices(columnId)
+        for (let element in countDices) {
+            const diceCase = $(`#player${this.id}-col${columnId} img[data-value=${element}]`).parent()
+
+            diceCase.each((index, html) => {
+                const htmlCase = $(html)
+                const htmlCaseId = `#${htmlCase.attr("id")}`
+
+                if (element !== "null" && countDices[element] > 1) {
+                    if (htmlCase.hasClass("vibrate")) {
+                        this.game.animation.removeCssAnimation(htmlCaseId, "vibrate")
+                        htmlCase.width()
+                    }
+
+                    this.game.animation.addCssAnimation(htmlCaseId, "vibrate")
+                }
+
+                else {
+                    if (htmlCase.hasClass("vibrate")) {
+                        this.game.animation.removeCssAnimation(htmlCaseId, "vibrate")
+                    }
+                }
+            })
+        }
+    }
+
+    remove() {
+        for (let i = 1; i <= 3; i++) {
+            for (let j = 1; j <= 3; j++) {
+                for (let k = 1; k < 3; k++) {
+                    $(`#player${k}-col${i}-case-${j}`).attr('class', 'case')
+                    $(`#potPlayer${k}`).attr('src', "https://ik.imagekit.io/iq52ivedsj/assets/dices/choseDice_ftS4YvZbV.png?ik-sdk-version=javascript-1.4.3&updatedAt=1662986918825")
+                }
+            }
         }
     }
 }
