@@ -3,19 +3,21 @@ import { url_shopCategory, url_basicPurchase, url_playerInfos } from "../../conf
 export class Shop {
     constructor() {
         this.recoverDataPlayer()
-        this.maDouceEtMagnifiqueFonction()
+
         this.purchaseWithBasicCoin()
     }
 
     maDouceEtMagnifiqueFonction() {
-        $('#panel').on('click', () => {
+        $('#panel').on('mouseenter', () => {
             $('#panel button').on('click', (event) => {
+                $('#item').fadeOut(0)
+                $('#item').fadeIn(1000)
                 $('#panel button').removeClass('vibrate')
                 $(event.target).addClass('vibrate')
                 $('#image').css('background-image', event.target.style.backgroundImage)
                 $('#item h1').html(event.target.name)
                 $('#item p').html(event.target.title)
-                $('#item h2').html(event.target.id)
+                $('#item h2').html($(event.target).attr("data-price"))
                 $('#item').attr('class', event.target.value)
             });
         });
@@ -33,6 +35,7 @@ export class Shop {
                 })
             }.bind(this)
         })
+
     }
 
     showShop() {
@@ -40,6 +43,7 @@ export class Shop {
         section.forEach(element => {
             this.recoverData(element)
         })
+        this.maDouceEtMagnifiqueFonction()
     }
 
     addItems(imgLink, name, description, price, productId, section) {
@@ -49,7 +53,7 @@ export class Shop {
                 style="background-image:url('${imgLink}');"
                 title="${description}"
                 value="${productId}"
-                id="${price}"
+                data-price="${price}"
                 >
             </button>`)
     }

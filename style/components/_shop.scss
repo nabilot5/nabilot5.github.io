@@ -1,0 +1,200 @@
+// @use "../abstracts/variables" as var;
+// @use "../abstracts/mixin" as mixin;
+// @use "../core/flex";
+// @use "../core/text";
+// @use "../core/position";
+
+// #shop {
+//     margin-top: 100px;
+//     position: fixed;
+//     top: 0;
+
+//     @include mixin.media-min-width(601px) {
+//         padding: 3vw;
+//     }
+
+//     @include mixin.media-max-width(600px) {
+//         padding: 2vw;
+//     }
+// }
+
+// #description {
+//     background-color:rgba(14,14,14,0.2) ;
+
+//     @include mixin.media-min-width(601px) {
+//         max-width: 25vw;  
+        
+//         h1 {
+//             margin-top: -3vw;
+//         }
+
+//         h2 {
+//             margin-bottom: -3vw;
+//         }
+//     }
+
+//     @include mixin.media-max-width(600px) {
+//         text-align: center;
+//         align-items: center;
+//         height: 20vw !important;
+//         width: 55vw !important; 
+
+//         p {
+//             overflow: auto;
+//             height: 10vw;
+//         }
+        
+//         h1 {
+//             margin-top: -8vw;
+//         }
+
+//         h2 {
+//             margin-top: -2vw;
+//         }
+//     }
+// }
+
+// #item {
+//     position: relative;
+//     align-items: center;
+//     text-align: center;
+
+//     h1 {
+//         color: #5c0408;
+//     }
+
+//     h2 {
+//         color: #a97406;
+//     }
+
+//     @include mixin.media-min-width(601px) {
+//         float: right;
+//     }
+
+//     @include mixin.media-max-width(600px){
+//         text-align: center;
+//         align-items: center;
+//         display: inline-flex;
+//     }
+// }
+
+// #image {
+//     @include mixin.media-min-width(601px) {
+//         background-color: #141414;
+//         background-repeat: no-repeat;
+//         background-size: 100% 100%;
+//         width: 25vw;
+//         height: 25vw;
+//     }
+
+//     @include mixin.media-max-width(600px) {
+//         background-color: #141414;
+//         background-repeat: no-repeat;
+//         background-size: 100% 100%;
+//         width: 40vw;
+//         height: 40vw;
+//     }
+// }
+
+// #margin {
+//     @include mixin.media-min-width(601px) {
+//         width: 35vw;
+//     }
+
+//     @include mixin.media-max-width(600px) {
+//         display: none;
+//     }
+// }
+
+// #panel {
+//     overflow: scroll;
+//     // padding: 3vw;
+
+//     ::-webkit-scrollbar {
+//         width: 0px;
+//         height: 0px;
+//     }
+
+//     @include mixin.media-min-width(601px) {
+//         margin-top: -100px;
+//         float: left;
+//         overflow: auto;
+//         width: 45vw;
+//         height: 40vw;
+//     }
+
+//     @include mixin.media-max-width(600px) {
+//         margin-top: 10vw;
+//         overflow: auto;
+//         height: 100vw;
+//     }
+// }
+ 
+// .panel-items {
+//     button {
+//         background-repeat: no-repeat;
+//         background-size: 100% 100%;
+//         background-color: #141414;
+//         border-width: 3px;
+//         border-color: #999;
+//     }
+
+//     p {
+//         font-size: 3vw;
+//         color: #a97406;
+//         margin-bottom: 0;
+//     }
+
+//     @include mixin.media-min-width(601px) {
+//         padding-top: 30px;
+//         width: 46vw;
+
+//         button {
+//             width: 15vw;
+//             height: 15vw;
+//         }
+//     }
+
+//     @include mixin.media-max-width(600px) {
+//         button {
+//             width: 25vw;
+//             height: 25vw;
+//         }
+//     }
+// }
+
+// #footer {
+//     text-align: center;
+//     width: 100vw;
+//     background-color: #5c0408;
+//     left: 0;
+//     position: fixed;
+//     bottom: 0;
+
+//     button {
+//         border-radius: 4px;
+//         border-color: #141414;
+//         background-color: #a97406;
+//     }
+
+//     @include mixin.media-min-width(601px) {
+//         height: 5vw;
+
+//         button {
+//             font-size: 2vw;
+//             width: auto;
+//             height: 3vw;
+//             margin-top: 10px;
+//         }
+//     }
+
+//     @include mixin.media-max-width(600px) {
+//         height: 70px;
+
+//         button {
+//             width: 20vw;
+//             height: 40px;
+//             margin-top: 20px;
+//         }
+//     }
+// }

@@ -7,7 +7,7 @@ export const url_player_server = `${url_server}/players`
 
 // api
 export const url_api = `${url_server}/api`
-// console.log(url_api);
+console.log(url_api);
 
 const url_auth = `${url_api}/auth`
 const url_rating = `${url_api}/rating`

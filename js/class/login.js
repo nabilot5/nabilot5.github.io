@@ -7,6 +7,36 @@ export class Login {
         this.password
     }
 
+    init() {
+        this.autoConnect()
+        this.signup()
+        this.signin()
+        this.showSigninForm()
+        this.showSignupForm()
+    }
+
+    showSigninForm() {
+        $('#return-to-connect').on('click', () => {
+            $('#signup').fadeOut(400, () => {
+                $("#signin-error").html('')
+                $('#signin').fadeIn(400)
+            })
+        })
+    }
+
+    showSignupForm() {
+        $('#new-user-btn').on('click', () => {
+            $('#signin').fadeOut(400, () => {
+                $("#signup-error").html('')
+                $('#signup').fadeIn(400)
+            })
+        })
+    }
+
+    showError(selector, msg) {
+        $(selector).html(msg)
+    }
+
     autoConnect() {
         const pseudo = localStorage.getItem("pseudo")
         const password = localStorage.getItem("password")
@@ -20,19 +50,20 @@ export class Login {
                     "password": password
                 },
                 dataType: "json",
-                success: function (response) {
-                    $("#menu-principal h1").html(`${response.pseudo}`)
-                    $("#player-name").html(`${response.pseudo}`)
+                success: (response) => {
+                    // $("#menu-principal h1").html(`${response.pseudo}`)
+                    // $("#player-name").html(`${response.pseudo}`)
                     $("#login-menu").fadeOut(400)
                     $("#menu-principal").fadeIn(400)
                     $("header").fadeIn(400)
                 },
-                error: function (xhr, ajaxOptions, thrownError) {
+                error: (xhr, ajaxOptions, thrownError) => {
                     console.log(xhr.status)
                     console.log(xhr.responseJSON)
                     console.log(thrownError)
 
                     localStorage.clear()
+                    $("#login-menu").fadeIn(400)
                 }
             })
         } else {
@@ -52,7 +83,7 @@ export class Login {
                     "password": this.password
                 },
                 dataType: "json",
-                success: function (response) {
+                success: (response) => {
                     if (localStorage.getItem('pseudo') !== response.pseudo || localStorage.getItem('password') !== response.password) {
                         localStorage.setItem("pseudo", response.pseudo)
                         localStorage.setItem("password", response.password)
@@ -65,10 +96,18 @@ export class Login {
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     console.log(xhr.status)
-                    console.log(xhr.responseJSON.message)
+                    console.log(xhr.responseJSON)
                     console.log(thrownError)
-                }
-            });
+
+                    if (typeof xhr.responseJSON.message !== "undefined") {
+                        this.showError("#signin-error", xhr.responseJSON.message)
+                    }
+
+                    else {
+                        this.showError("#signin-error", "Une erreur est survenue")
+                    }
+                }.bind(this)
+            })
         })
     }
 
@@ -85,8 +124,7 @@ export class Login {
                     "password": this.password
                 },
                 dataType: "json",
-                success: function (response) {
-                    // console.log(response)
+                success: (response) => {
                     $('#signup').fadeOut(400, () => {
                         $('#signin').fadeIn(400)
                     });
@@ -95,8 +133,16 @@ export class Login {
                     console.log(xhr.status)
                     console.log(xhr.responseJSON.message)
                     console.log(thrownError)
-                }
-            });
+
+                    if (typeof xhr.responseJSON.message !== "undefined") {
+                        this.showError("#signup-error", xhr.responseJSON.message)
+                    }
+
+                    else {
+                        this.showError("#signup-error", "Une erreur est survenue")
+                    }
+                }.bind(this)
+            })
         })
     }
 

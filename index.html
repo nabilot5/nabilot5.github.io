@@ -13,27 +13,29 @@
 		<title>The Pirate's Dice</title>
 	</head>
 	<body>
-		<div id="wrapper" class="w-100 h-100">
-			<main class="w-100 h-100">
-				<div id="index" class="w-100 h-100 hide">
-					<header class="hide">
-						<div id="brand">THE PIRATE'S DICES</div>
-						<nav>
-							<div id="nav">
-								<button class="menu-principal-btn" type="button">MENU PRINCIPAL</button>
-								<button class="leaderboard-btn" type="button">CLASSEMENT</button>
-								<button class="shop-btn" type="button">BOUTIQUE</button>
-							</div>
-						</nav>
+		<div id="wrapper">
+			<main>
+				<div id="index">
+					<header>
+						<div id="nav-bar">
+							<div id="brand">THE PIRATE'S DICES</div>
+							<nav>
+								<div id="nav">
+									<button class="menu-principal-btn" type="button">MENU PRINCIPAL</button>
+									<button class="leaderboard-btn" type="button">CLASSEMENT</button>
+									<button class="shop-btn" type="button">BOUTIQUE</button>
+								</div>
+							</nav>
 
-						<div id="hamburger-icon" onclick="toggleMobileMenu(this)">
-							<div class="bar1"></div>
-							<div class="bar2"></div>
-							<div class="bar3"></div>
-							<div id="mobile-menu">
-								<button class="menu-principal-btn" type="button">MENU PRINCIPAL</button>
-								<button class="leaderboard-btn" type="button">CLASSEMENT</button>
-								<button class="shop-btn" type="button">BOUTIQUE</button>
+							<div id="hamburger-icon" onclick="toggleMobileMenu(this)">
+								<div class="bar1"></div>
+								<div class="bar2"></div>
+								<div class="bar3"></div>
+								<div id="mobile-menu">
+									<button class="menu-principal-btn" type="button">MENU PRINCIPAL</button>
+									<button class="leaderboard-btn" type="button">CLASSEMENT</button>
+									<button class="shop-btn" type="button">BOUTIQUE</button>
+								</div>
 							</div>
 						</div>
 					</header>
@@ -42,47 +44,54 @@
 						<img id="backg" class="img-fit pos-abs z-index--1" src="" alt="">
 					</div>
 
-					<section id="login-menu" class="page-menu pos-abs bottom-0 hide">
-						<div id="form-container" class="f-row f-center h-100 w-100">
-							<div id="signup" class="form w-100 hide">
-								<h1>S'inscrire</h1>
+					<section id="login-menu" class="h-100 w-100 pos-abs bottom-0 hide">
+						<div id="form-container" class="f-row f-center h-100">
+							<div id="signup" class="form h-mx-100 hide">
+								<h1 class="txt-center">S'inscrire</h1>
+								<p id="signup-error" class="txt-center color-err"></p>
 								<form id="signup-form" action="#">
-									<div class="form-control">
-										<label for="mail">Mail</label>
-										<input type="email" name="email" required>
-									</div>
-									<div class="form-control">
-										<label for="pseudo">Pseudo</label>
-										<input type="text" name="pseudo" required>
-									</div>
-									<div class="form-control">
-										<label for="password">Password</label>
-										<input type="password" name="password" required>
+									<div class="f-column w-100">
+										<div class="f-row pos-rel form-control">
+											<label class="txt-center" for="mail">Mail</label>
+											<input class="f-grow-1" type="email" name="email" required="required">
+										</div>
+										<div class="f-row pos-rel form-control">
+											<label class="txt-center" for="pseudo">Pseudo</label>
+											<input class="f-grow-1" type="text" name="pseudo" required="required">
+										</div>
+										<div class="f-row pos-rel form-control">
+											<label class="txt-center" for="password">Password</label>
+											<input class="f-grow-1" type="password" name="password" required="required">
+										</div>
 									</div>
 
-									<div class="btn-container">
-										<button type="button" id="signup-submit" class="submit-btn">
+									<div class="f-row f-jc-sp-bw f-ai-center connect-container-btn">
+										<button class="form-btn" id="return-to-connect" type="button">se connecter</button>
+										<button type="submit" id="signup-submit" class="submit-btn">
 											<i class="fa-solid fa-check fa-xl"></i>
 										</button>
 									</div>
 								</form>
 							</div>
 
-							<div id="signin" class="form">
-								<h1>Se connecter</h1>
-								<form id="signin-form" action="#">
-									<div class="form-control">
-										<label for="pseudo">Pseudo</label>
-										<input type="text" name="pseudo" required>
-									</div>
-									<div class="form-control">
-										<label for="password">Password</label>
-										<input type="password" name="password" required>
+							<div id="signin" class="form h-mx-100">
+								<h1 class="txt-center">Se connecter</h1>
+								<p id="signin-error" class="txt-center color-err"></p>
+								<form id="signin-form" action="#" >
+									<div class="f-column w-100">
+										<div class="f-row pos-rel form-control">
+											<label class="txt-center" for="pseudo">Pseudo</label>
+											<input class="f-grow-1" type="text" name="pseudo" required="required">
+										</div>
+										<div class="f-row pos-rel form-control">
+											<label class="txt-center" for="password">Password</label>
+											<input class="f-grow-1" type="password" name="password" required="required">
+										</div>
 									</div>
 
-									<div class="btn-container-space">
-										<button type="button" id="new-user-btn">Je n'ai pas de compte</button>
-										<button type="button" id="signin-submit" class="submit-btn">
+									<div class="f-row f-jc-sp-bw f-ai-center connect-container-btn">
+										<button class="form-btn " type="button" id="new-user-btn">Je n'ai pas de compte</button>
+										<button onsubmit="return null" type="submit" id="signin-submit" class="submit-btn">
 											<i class="fa-solid fa-check fa-xl"></i>
 										</button>
 									</div>
@@ -95,7 +104,7 @@
 						<div
 							class="w-100 h-100 f-column f-jc-sp-bw">
 							<!-- <h1 id="id-player" class="txt-center"></h1> -->
-							<div id="mode-menu-container" class="w-100 h-100 f-row f-jc-end f-ai-end">
+							<div id="mode-menu-container">
 								<div id="mode-menu" class="f-column">
 									<button id="redirectionSolo" class="btn btn-transparent w-100">
 										<img class="img-res" src="https://ik.imagekit.io/iq52ivedsj/assets/solo_WHb3hxECH.png?ik-sdk-version=javascript-1.4.3&updatedAt=1662986941093" alt="">
@@ -125,10 +134,10 @@
 							</div>
 						</div>
 						<div id="panel">
-							<div id="bonus" class="panel-items"><h1>Bonus</h1></div>
+							<div id="bonus" class="panel-items"><h1>Bonus</h1></div><br/>
 							<!-- <div id="emot"><h1>Emoticone</h1></div> -->
-							<div id="icon" class="panel-items"><h1>Icone</h1></div>
-							<div id="skin" class="panel-items"><h1>Skin</h1></div>
+							<div id="icon" class="panel-items"><h1>Icone</h1></div><br/>
+							<div id="skin" class="panel-items"><h1>Skin</h1></div><br/>
 							<div id="gold" class="panel-items"><h1>Or</h1></div>
 						</div>
 						<div id="footer">
@@ -148,7 +157,7 @@
 								<img class="img-res" src="https://ik.imagekit.io/mbo2hq52r/assets/coffre_UVq0oNMjyM.png?ik-sdk-version=javascript-1.4.3&updatedAt=1664289319055" alt="">
 							</div>
 
-							<form action="#" class="w-100 f-column-center color-white pos-rel">
+							<form action="#" class="w-100 f-column-center color-white pos-rel validate">
 								<label for="bet-value">
 									Mise des points
 								</label>
@@ -162,12 +171,12 @@
 
 								<div></div>
 							</form>
-
 							<div id="validate-bet">
-								<button class="btn btn-transparent" type="button">
+								<button class="btn btn-transparent validate" type="button">
 									<img class="img-res" src="https://ik.imagekit.io/iq52ivedsj/assets/pieces_jo4ovO8J0.png?ik-sdk-version=javascript-1.4.3&updatedAt=1662986935971" alt="">
 								</button>
 							</div>
+
 						</div>
 					</div>
 
@@ -233,7 +242,7 @@
 								</div>
 							</div>
 
-							<div id="roll-haut" class="f-row">
+							<div id="roll-haut" class="f-row-center">
 								<p id="totalScore2" class="total-score-left color-white">0</p>
 								<p id="namePlayer2" class="pseudo-left color-white">player2</p>
 							</div>
@@ -391,15 +400,15 @@
 						</div>
 
 						<div id="ui-bas">
+							<div id="roll-bas" class="f-row-center">
+								<p id="namePlayer1" class="pseudo-rigth color-white">player1</p>
+								<p id="totalScore1" class="total-score-rigth color-white">0</p>
+							</div>
 							<div class="pos-rel f-column-center">
 								<img class="img-res" src="https://ik.imagekit.io/iq52ivedsj/assets/rollbas_IgcEs8UX-.png?ik-sdk-version=javascript-1.4.3&updatedAt=1662986946600" alt="">
 								<div class="pos-abs w-35">
 									<img id="potPlayer1" class="choice-dice img-res" src="https://ik.imagekit.io/iq52ivedsj/assets/dices/choseDice_ftS4YvZbV.png?ik-sdk-version=javascript-1.4.3&updatedAt=1662986918825" alt="">
 								</div>
-							</div>
-							<div id="roll-bas" class="f-row">
-								<p id="namePlayer1" class="pseudo-rigth color-white">player1</p>
-								<p id="totalScore1" class="total-score-rigth color-white">0</p>
 							</div>
 						</div>
 
@@ -430,8 +439,8 @@
 
 				<script>
 					function toggleMobileMenu(menu) {
-						menu.classList.toggle('open');
-						}
+menu.classList.toggle('open');
+}
 				</script>
 			</footer>
 		</div>

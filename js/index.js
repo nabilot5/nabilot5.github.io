@@ -36,9 +36,7 @@ window.addEventListener('load', function () {
 changeBackground()
 
 const login = new Login()
-login.autoConnect()
-login.signup()
-login.signin()
+login.init()
 
 const leaderBoard = new Leaderboard()
 leaderBoard.init()
@@ -69,12 +67,6 @@ $('#redirectionMulti').on('click', () => {
         // show conect form
         console.log("Veillez vous connecter");
     }
-})
-
-$('#new-user-btn').on('click', () => {
-    $('#signin').fadeOut(400, () => {
-        $('#signup').fadeIn(400)
-    });
 })
 
 /////////////////////////////////////////////////////////////
@@ -110,3 +102,6 @@ $('.player-info').on('click', () => {
 })
 //////////////////////////////////////////////////////////////
 
+$('.validate').click(function () {
+    return false; //Empêche le formulaire d'être soumis
+});
